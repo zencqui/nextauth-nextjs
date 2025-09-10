@@ -1,13 +1,10 @@
 import { auth } from "../../../auth"
-import { getToken } from "next-auth/jwt";
 
 export const GET = auth(async (req) => {
 
-   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
-   if (token) {
+   if (req.auth) {
         // Access the stored access token
-        const accessToken = token.accessToken;
+        const accessToken = req.auth?.accessToken
         // Use accessToken to make requests to external APIs, etc.
         return Response.json({ message: "Access token retrieved", accessToken })
       } else {

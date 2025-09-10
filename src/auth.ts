@@ -9,8 +9,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     basePath: "/auth",
     callbacks: {
     authorized({ request, auth }) {
-      const { pathname } = request.nextUrl
-      if (pathname === "/middleware-example") return !!auth
+      // const { pathname } = request.nextUrl
+      // if (pathname === "/middleware-example") return !!auth
       return true
     },
     jwt({ token, trigger, session, account }) {
@@ -18,10 +18,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (account?.provider === "auth0") {
         return { ...token, accessToken: account.access_token }
       }
+      
       return token
     },
     async session({ session, token }) {
-      if (token?.accessToken) {session.sessionToken = token.accessToken;
+      if (token?.accessToken) {
+        session.accessToken = token.accessToken;
       }
 
       return session
